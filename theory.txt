@@ -1,0 +1,364 @@
+/* 
+this js can calculate the total amt of patterns in a 9-dot-pattern
+rules: 
+
+1. the length of the pattern is always 4 in minmum (4 dots connected), max can be any as per allowed by the the next rule
+2. the same dot can't be joined twice unless it's joining another point across it.
+3. no direct formulas allowed to calculate the result, it should be simulated at the least
+4. for simplicity we are excluding the testing for diagonals but it should be in agreement with the derivations below.
+
+
+
+theory: 
+
+assume the coordinates starts from bottom left starting at (0,0) which is origin [let it be called O for the test] for our model. 
+
+THE CORNER:
+
+if we draw a test pattern from O , and we rotate the whole thing by 90deg each time, we can get 4 patterns in different direction but with same shape.
+
+notice that every rotation... the pattern starts with a new corner
+
+model 1:
+*	*	*
+	|
+*	*	*
+	|
+*---*	*
+
+90deg in clockwise: 
+model 2:
+*	*	*
+|
+*---*---*
+
+*	*	*
+
+90deg in clockwise:
+model 3:
+*	*---*
+	|
+*	*	*
+	|
+*	*	*
+
+90deg in clockwise:
+model 4:
+*	*	*
+
+*---*---*
+		|
+*	*	*
+
+
+
+and if we mirror every model , laterally and horizontally... we get 12 pattern with different direction but with similar shape.
+
+
+
+
+/////////////////////////// model 1:
+original: 
+model 1:
+*	*	*
+	|
+*	*	*
+	|
+*---*	*
+
+mirrored laterally: 
+model 1.1: /// equal with model 1.1 
+*	*	*
+	|
+*	*	*
+	|
+*	*---*
+
+mirrored the original fig, horizontally: 
+model 1.2: // equal with model 3.1 
+*---*	*
+	|
+*	*	*
+	|
+*	*	*
+
+////////////////////////////// model 2:
+
+model 2:
+*	*	*
+|
+*---*---*
+
+*	*	*
+
+mirrored model 2, latterally:
+model 2.1:  /// equal with 4.2 
+*	*	*
+		|
+*---*---*
+
+*	*	*
+
+mirroring model 2, horizontally: 
+model 2.2:  // equal with 4.1
+*	*	*
+
+*---*---*
+|
+*	*	*
+
+/////////////////////////////// model 3:
+
+model 3:
+*	*---*
+	|
+*	*	*
+	|
+*	*	*
+
+mirroring model 3, laterally:
+model 3.1: // equal with model 1.2 
+*---*	*
+	|
+*	*	*
+	|
+*	*	*
+
+mirroring model 3, horizontally:
+model 3.2:  /// equal with model 1.1 
+*	*	*
+	|
+*	*	*
+	|
+*	*---*
+
+//////////////////////////////////model 4:
+
+model 4:
+*	*	*
+
+*---*---*
+		|
+*	*	*
+
+mirrroing model 4, laterally:
+model 4.1: /// equl with 2.2 
+*	*	*
+
+*---*---*
+|		
+*	*	*
+mirroring model 4, horizontally:
+model 4.2: /// equal with 2.1 
+*	*	*
+		|
+*---*---*
+		
+*	*	*
+
+model 1.1 & model 3.2
+model 1.2 & model 3.1
+model 2.1 & model 4.2
+model 1.2 & model 4.1
+are equivalent so we only have 8 unique patterns: 4 main models , and 4 unique mirrored and rotated.
+
+
+so if P(C) be the amt of possible patterns from only one corner then total possibilites = P(C) * (4 + 4) = 8 * P(C)
+//////////////////////////////////////////////////
+THE EDGE: 
+
+if O(0,0) is the origin then to the right is the edge dot, any dot that is not a corner and not at center is a edge, taking E(0,1) as sample for test...
+
+model 1:
+*	*	*
+		|
+*	*---*
+	|
+*	*	*
+rotating clockwise: 
+model 2:
+*	*	*
+		
+*---*	*
+	|
+*	*---*
+rotating clockwise:
+model 3:
+*	*	*
+	|	
+*---*	*
+|	
+*	*	*
+
+rotating clockwise:
+model 4:
+*---*	*
+	|	
+*	*---*
+	
+*	*	*
+
+now mirroring every rotation ... laterally and horizontally...
+/////////////////// model 1:
+
+
+model 1:
+*	*	*
+		|
+*	*---*
+	|
+*	*	*
+
+mirroring model 1 laterally:
+
+
+model 1.1:  // equal with model 3.2
+*	*	*
+|		
+*---*	*
+	|
+*	*	*
+
+mirroring model 1 horizontally:
+
+
+model 1.2: // equal with model 3.1
+*	*	*
+	|	
+*	*---*
+		|
+*	*	*
+
+////////////////////////// model 2:
+model 2:
+*	*	*
+		
+*---*	*
+	|
+*	*---*
+
+mirroring model 2 laterally: 
+
+model 2.1:  equal with model 4.2
+*	*	*
+		
+*	*---*
+	|
+*---*	*
+
+mirroring model 2 horizontally: equal with model 4.1
+
+model 2.2:
+*	*---*
+	|	
+*---*	*
+	
+*	*	*
+
+
+///////////////////////////// model 3:
+model 3:
+*	*	*
+	|	
+*---*	*
+|	
+*	*	*
+
+mirroring model 3 laterally: 
+
+model 3.1: /// equal with model 1.2
+*	*	*
+	|	
+*	*---*
+		|	
+*	*	*
+
+model 3.2: /// equal with model 1.1
+*	*	*
+|		
+*---*	*
+	|
+*	*	*
+
+///////////////////////////////// model 4:
+
+model 4:
+*---*	*
+	|	
+*	*---*
+	
+*	*	*
+
+model 4.1: // equal with model 2.2
+*	*---*
+	|	
+*---*	*
+	
+*	*	*
+
+model 4.2: // equal with model 2.1
+*	*	*
+		
+*	*---*
+	|
+*---*	*
+
+
+model 1.1 & model 3.2
+model 1.2 & model 3.1
+model 2.1 & model 4.2
+model 2.2 & model 4.1
+
+so there are only 8 unique models: 4 original models and 4 unique mirrored and rotated models:
+so if P(E) be the amt of possible patterns from only one edge then total possibilites = P(E) * (4 + 4) = 8 * P(E)
+
+For center: 
+*	*	*
+
+*	*	*
+
+*	*	*
+here ... C(1,1) is the center dot & taking it as a test dot... 
+
+let  a pattern..
+
+model 1:
+
+*	*	*
+
+*	*---*
+		|
+*---*---*
+
+rotatitng...
+
+model 2:
+
+*	*	*
+|
+*	*	*
+|	|
+*---*	*
+
+model 3:
+
+*---*---*
+|
+*---*	*
+
+*	*	*
+
+model 4:
+*	*---*
+	|	|
+*	*	*
+		|
+*	*	*
+from the above trends assuming there are only 4 unique mirrored patterns... 
+then total possible is 8 : 4 original models and 4 unique mirrored and rotated models:
+
+so if P(V) be the amt of possible patterns from the center C[1,1] then total possibilites = P(V) * (4 + 4) = 8 * P(V)
+
+from the above theory we can say that the total possibilites of a 9 dot pattern is...  P(total) = 8P(C) + 8P(E) + 8P(V)
+so on determining the given 3 varriable , total possibilites of a 9 dot pattern can be determined.
+*/
